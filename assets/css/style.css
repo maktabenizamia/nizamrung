@@ -1,0 +1,488 @@
+@font-face{
+  font-family:"Bombay Black Unicode";font-display:swap;
+  src:local("Bombay Black Unicode"),local("BombayBlackUnicode"),local("Bombay Black"),
+      url("../fonts/BombayBlackUnicode.ttf") format("truetype"),
+      url("../fonts/Bombay-Black-Unicode.ttf") format("truetype"),
+      url("../fonts/BombayBlack.ttf") format("truetype");
+}
+:root{
+  --bg:#0f1512;
+  --bar:#0b3322;
+  --bar-2:#14573a;
+  --ink:#f6f1e3;
+  --muted:#b9c7bd;
+  --gold:#e0be72;
+  --gold-2:#f4dc9b;
+  --line:rgba(255,255,255,.12);
+  --radius:12px;
+  --ease:cubic-bezier(.22,.8,.24,1);
+  --ui:"Noto Naskh Arabic","Noto Sans Arabic","Segoe UI",Tahoma,Arial,sans-serif;
+  --lalezar:"Lalezar","Noto Naskh Arabic","Segoe UI",Tahoma,sans-serif;
+  --bombay:"Bombay Black Unicode","Noto Nastaliq Urdu","Noto Naskh Arabic",serif;
+  --title:"Noto Nastaliq Urdu","Jameel Noori Nastaleeq","Noto Naskh Arabic",serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+html{height:100%}
+@view-transition{navigation:auto}
+
+body{
+  position:relative;min-height:100%;
+  background:linear-gradient(135deg,#0c120f,#10241a 45%,#0c120f);
+  background-size:300% 300%;animation:bgShift 28s ease-in-out infinite;
+  color:var(--ink);font-family:var(--ui);
+}
+body.viewer{display:flex;flex-direction:column;height:100vh;height:100dvh;min-height:0;overflow:hidden}
+/* آہستہ سرکتا اسلامی جیومیٹرک نقش */
+body::before{
+  content:"";position:fixed;inset:-80px;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23e0be72' stroke-opacity='.10' stroke-width='1'%3E%3Crect x='20' y='20' width='40' height='40'/%3E%3Crect x='20' y='20' width='40' height='40' transform='rotate(45 40 40)'/%3E%3Ccircle cx='40' cy='40' r='9'/%3E%3C/g%3E%3C/svg%3E");
+  animation:drift 50s linear infinite;
+}
+/* سنہری روشنی کی دھڑکن */
+body::after{
+  content:"";position:fixed;left:50%;top:48%;width:80vmin;height:80vmin;z-index:0;pointer-events:none;
+  transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle,rgba(224,190,114,.16),rgba(224,190,114,0) 65%);
+  animation:glow 7s ease-in-out infinite;
+}
+@keyframes bgShift{0%,100%{background-position:0 0}50%{background-position:100% 100%}}
+@keyframes drift{to{transform:translate(80px,80px)}}
+@keyframes glow{0%,100%{opacity:.55;transform:translate(-50%,-50%) scale(.92)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}}
+
+a{color:inherit;text-decoration:none}
+button,input{font-family:inherit;color:inherit}
+
+/* تیرتے سنہری ذرات */
+.dust{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.dust i{
+  position:absolute;bottom:-12px;width:var(--s);height:var(--s);border-radius:50%;
+  background:var(--gold-2);opacity:0;filter:blur(.5px);
+  animation:rise var(--d) linear var(--l) infinite;
+}
+@keyframes rise{
+  0%{transform:translate(0,0);opacity:0}
+  12%{opacity:.7}
+  100%{transform:translate(var(--x),-105vh);opacity:0}
+}
+
+/* ---------- top bar ---------- */
+.bar{
+  position:relative;z-index:5;flex:0 0 auto;
+  display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:8px 16px;
+  background:linear-gradient(180deg,rgba(20,87,58,.96),rgba(11,51,34,.96));
+  backdrop-filter:blur(8px);box-shadow:0 6px 24px rgba(0,0,0,.4);
+  animation:slideDown .7s var(--ease) both;
+}
+.bar::after{ /* سنہری لکیر کی چمک */
+  content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),var(--gold-2),var(--gold),transparent);
+  background-size:200% 100%;animation:shine 5s linear infinite;
+}
+@keyframes shine{to{background-position:-200% 0}}
+@keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:none;opacity:1}}
+@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:none;opacity:1}}
+
+.brand{display:flex;align-items:center;gap:12px;min-width:0;flex:1 1 280px}
+.logo{width:42px;height:42px;flex:0 0 auto;filter:drop-shadow(0 0 8px rgba(224,190,114,.45))}
+.logo .spin{transform-origin:50% 50%;animation:spin 24s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.brand .t{display:flex;flex-direction:column;line-height:1.6;min-width:0}
+.brand b{font-family:var(--title);font-size:1.08rem;font-weight:600;
+  background:linear-gradient(90deg,var(--gold),var(--gold-2),var(--gold));background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{color:var(--muted);font-size:.78rem}
+
+.tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.group{display:flex;align-items:center;background:rgba(0,0,0,.28);border:1px solid var(--line);
+  border-radius:var(--radius);overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.group:hover{border-color:rgba(224,190,114,.5);box-shadow:0 0 14px rgba(224,190,114,.15)}
+.btn{
+  appearance:none;border:0;background:transparent;cursor:pointer;position:relative;overflow:hidden;
+  min-width:38px;height:38px;padding:0 11px;display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  font-size:.88rem;transition:background .2s,transform .2s var(--ease),color .2s;
+}
+.btn:hover{background:rgba(255,255,255,.12)}
+.btn:active{transform:scale(.92)}
+.btn:disabled{opacity:.3;cursor:default;transform:none}
+.btn.on{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#1b2a20;font-weight:700}
+.btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s var(--ease)}
+.btn:hover:not(:disabled) svg{transform:scale(1.18)}
+.btn::after{ /* لہر کا اثر */
+  content:"";position:absolute;inset:0;background:radial-gradient(circle,rgba(255,255,255,.4) 0,transparent 60%);
+  transform:scale(0);opacity:0;border-radius:50%;
+}
+.btn.rip::after{animation:ripple .55s ease-out}
+@keyframes ripple{from{transform:scale(0);opacity:1}to{transform:scale(2.6);opacity:0}}
+.zoom-val{min-width:54px;text-align:center;font-size:.85rem;direction:ltr;font-variant-numeric:tabular-nums;color:var(--gold-2)}
+.zoom-val.pop{animation:pop .3s var(--ease)}
+@keyframes pop{50%{transform:scale(1.25)}}
+.sep{width:1px;align-self:stretch;background:var(--line)}
+
+/* ---------- stage ---------- */
+#stage{
+  position:relative;z-index:1;
+  flex:1 1 auto;min-height:0;display:flex;overflow:auto;direction:ltr;
+  scrollbar-color:#4b5b50 transparent;overscroll-behavior:contain;perspective:2400px;
+}
+#stage.zoomed{cursor:grab}
+#stage.dragging{cursor:grabbing;user-select:none}
+#book{direction:rtl;margin:auto;flex:0 0 auto;display:flex;padding:18px;transform-style:preserve-3d}
+#book img{
+  display:block;height:var(--h,70vh);width:var(--w,50vh);background:#fff;
+  user-select:none;-webkit-user-drag:none;border-radius:2px;
+  box-shadow:0 18px 40px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.05);
+  transition:width .3s var(--ease),height .3s var(--ease),filter .4s;
+  animation:appear .8s var(--ease) both;
+}
+/* تصویر لوڈ ہونے تک چمکتا خاکہ */
+#book img:not(.ld){
+  background:linear-gradient(100deg,#e8e4d6 30%,#faf7ee 50%,#e8e4d6 70%);background-size:200% 100%;
+  animation:appear .8s var(--ease) both,skel 1.2s linear infinite;
+  filter:blur(2px);
+}
+@keyframes skel{to{background-position:-200% 0}}
+@keyframes appear{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
+
+#book.spread img{box-shadow:none}
+#book.spread{filter:drop-shadow(0 18px 28px rgba(0,0,0,.6))}
+#book.spread img:first-child{border-radius:2px 0 0 2px;transform-origin:left center}
+#book.spread img + img{border-radius:0 2px 2px 0;transform-origin:right center}
+/* جوڑ (spine) کی سایہ دار پٹی */
+#book.spread::before{
+  content:"";position:absolute;top:18px;bottom:18px;left:50%;width:40px;transform:translateX(-50%);z-index:2;pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(0,0,0,.28) 48%,rgba(0,0,0,.34) 50%,rgba(0,0,0,.28) 52%,transparent);
+}
+#book{position:relative}
+
+/* ---------- صفحہ پلٹنے کے اثرات ---------- */
+#book[data-turn="next"] img{animation:turnNext .75s var(--ease) both}
+#book[data-turn="prev"] img{animation:turnPrev .75s var(--ease) both}
+#book[data-turn="next"].spread img:last-child{animation:flipFromSpineL .9s var(--ease) both}
+#book[data-turn="prev"].spread img:first-child{animation:flipFromSpineR .9s var(--ease) both}
+@keyframes turnNext{from{opacity:0;transform:translateX(-70px) rotateY(18deg)}to{opacity:1;transform:none}}
+@keyframes turnPrev{from{opacity:0;transform:translateX(70px) rotateY(-18deg)}to{opacity:1;transform:none}}
+@keyframes flipFromSpineL{
+  0%{opacity:0;transform:perspective(1800px) rotateY(-80deg)}
+  35%{opacity:1}
+  100%{opacity:1;transform:perspective(1800px) rotateY(0)}
+}
+@keyframes flipFromSpineR{
+  0%{opacity:0;transform:perspective(1800px) rotateY(80deg)}
+  35%{opacity:1}
+  100%{opacity:1;transform:perspective(1800px) rotateY(0)}
+}
+
+/* ---------- pager ---------- */
+.pager{
+  position:relative;z-index:5;flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:12px;
+  padding:10px 12px;background:linear-gradient(0deg,rgba(0,0,0,.6),rgba(0,0,0,.35));backdrop-filter:blur(8px);
+  border-top:1px solid var(--line);animation:slideUp .7s var(--ease) .1s both;
+}
+.pager .btn{background:rgba(255,255,255,.08);border-radius:var(--radius);padding:0 18px;border:1px solid var(--line)}
+.pager .btn:hover:not(:disabled){background:rgba(224,190,114,.2);border-color:var(--gold)}
+#bNext:hover:not(:disabled) svg{transform:translateX(-5px) scale(1.15)}
+#bPrev:hover:not(:disabled) svg{transform:translateX(5px) scale(1.15)}
+.pager .num{display:flex;align-items:center;gap:6px;direction:ltr;font-size:.95rem;min-width:130px;justify-content:center}
+.pager input{
+  width:58px;height:38px;text-align:center;border:1px solid var(--line);border-radius:10px;
+  background:rgba(0,0,0,.35);font-size:1rem;transition:border-color .2s,box-shadow .2s;
+}
+.pager input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(224,190,114,.25)}
+.progress{position:absolute;top:-3px;left:0;right:0;height:3px;background:rgba(255,255,255,.08);direction:rtl}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(270deg,var(--gold),var(--gold-2));
+  box-shadow:0 0 10px var(--gold);transition:width .6s var(--ease)}
+
+/* ---------- thumbnails drawer ---------- */
+#scrim{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .3s;z-index:20}
+#scrim.show{opacity:1;pointer-events:auto}
+#thumbs{
+  position:fixed;top:0;bottom:0;right:0;width:min(380px,90vw);z-index:21;
+  background:linear-gradient(180deg,#0f1f17,#0a110e);border-left:1px solid rgba(224,190,114,.35);
+  transform:translateX(105%);transition:transform .45s var(--ease);display:flex;flex-direction:column;
+  box-shadow:-20px 0 50px rgba(0,0,0,.5);
+}
+#thumbs.show{transform:none}
+#thumbs header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);color:var(--gold)}
+#thumbs .grid{overflow:auto;padding:14px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;align-content:start}
+#thumbs a{
+  display:flex;flex-direction:column;align-items:center;gap:5px;padding:7px;border-radius:10px;
+  border:2px solid transparent;font-size:.8rem;color:var(--muted);
+  opacity:0;transform:translateY(18px);transition:background .2s,transform .25s var(--ease),border-color .2s;
+}
+#thumbs.show a{animation:thumbIn .5s var(--ease) calc(var(--i)*45ms + 150ms) both}
+@keyframes thumbIn{to{opacity:1;transform:none}}
+#thumbs a:hover{background:rgba(224,190,114,.1);transform:translateY(-4px) scale(1.03)!important}
+#thumbs a.active{border-color:var(--gold);color:var(--ink);box-shadow:0 0 16px rgba(224,190,114,.35)}
+#thumbs img{width:100%;height:auto;background:#fff;border-radius:3px;display:block;box-shadow:0 4px 10px rgba(0,0,0,.5)}
+
+/* ---------- toast ---------- */
+#toast{
+  position:fixed;bottom:84px;left:50%;transform:translateX(-50%) translateY(20px) scale(.9);
+  background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#1b2a20;padding:9px 20px;border-radius:99px;
+  font-size:.9rem;font-weight:700;opacity:0;pointer-events:none;transition:.35s var(--ease);z-index:40;
+  box-shadow:0 8px 24px rgba(0,0,0,.4)
+}
+#toast.show{opacity:1;transform:translateX(-50%) scale(1)}
+
+/* ---------- افتتاحی اسکرین ---------- */
+#splash{
+  position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;overflow:auto;
+  background:radial-gradient(circle at 50% 40%,#14573a,#07150f 75%);text-align:center;padding:20px;
+  transition:opacity .9s ease,transform .9s var(--ease),visibility .9s;
+}
+#splash.hide{opacity:0;transform:scale(1.08);visibility:hidden;pointer-events:none}
+#splash svg{width:120px;height:120px;filter:drop-shadow(0 0 22px rgba(224,190,114,.6))}
+#splash .spin{transform-origin:50% 50%;animation:spin 14s linear infinite}
+#splash .draw{stroke-dasharray:400;stroke-dashoffset:400;animation:draw 2s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+#splash h1{
+  margin:14px 0 0;font-family:var(--bombay);font-weight:400;font-size:clamp(1.4rem,4vw,2.5rem);line-height:2;
+  background:linear-gradient(90deg,var(--gold),var(--gold-2),var(--gold));background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:fadeUp 1s var(--ease) .3s both,shine 4s linear infinite;
+}
+#splash p{margin:0;font-family:var(--lalezar);font-size:clamp(.95rem,2.2vw,1.2rem);color:var(--muted);animation:fadeUp 1s var(--ease) .6s both}
+#splash .enter{
+  margin-top:16px;display:inline-flex;align-items:center;gap:12px;cursor:pointer;flex:0 0 auto;
+  padding:10px 38px;border-radius:99px;border:2px solid var(--gold);font-family:var(--lalezar);font-size:1.3rem;font-weight:400;
+  color:#1b2a20;background:linear-gradient(135deg,var(--gold),var(--gold-2),var(--gold));background-size:200% 100%;
+  box-shadow:0 0 0 0 rgba(224,190,114,.6),0 10px 30px rgba(0,0,0,.45);
+  animation:fadeUp 1s var(--ease) 1s both,pulse 2.2s ease-out 2s infinite,shine 4s linear infinite;
+  transition:transform .25s var(--ease),box-shadow .25s;
+}
+#splash .enter svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .25s var(--ease)}
+#splash .enter:hover{transform:translateY(-3px) scale(1.05)}
+#splash .enter:hover svg{transform:translateX(-6px)}
+#splash .enter:active{transform:scale(.96)}
+#splash .enter:focus-visible{outline:3px solid #fff;outline-offset:4px}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(224,190,114,.6),0 10px 30px rgba(0,0,0,.45)}100%{box-shadow:0 0 0 22px rgba(224,190,114,0),0 10px 30px rgba(0,0,0,.45)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes blink{50%{opacity:.25}}
+
+noscript .ns{padding:12px;text-align:center;position:relative;z-index:2}
+noscript .ns a{color:var(--gold);margin:0 10px}
+
+/* ---------- small screens ---------- */
+@media (max-width:700px){
+  .bar{padding:6px 10px;gap:6px}
+  .brand{flex-basis:100%}
+  .logo{width:34px;height:34px}
+  .brand b{font-size:.95rem}
+  .tools{width:100%;justify-content:space-between;gap:6px}
+  .btn{min-width:36px;height:36px;padding:0 8px}
+  .btn .lbl{display:none}
+  .view-grp .btn .lbl{display:inline}
+  #book{padding:10px}
+  .pager .num{min-width:110px}
+}
+@media (max-width:420px){
+  .view-grp .btn .lbl{display:none}
+  .zoom-val{min-width:44px;font-size:.78rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .dust{display:none}
+}
+@media print{
+  .bar,.pager,#thumbs,#scrim,.dust,#splash{display:none!important}
+  body{display:block;background:#fff;overflow:visible;height:auto;animation:none}
+  body::before,body::after{display:none}
+  #stage{overflow:visible}
+  #book img{box-shadow:none;height:auto;width:100%;animation:none}
+}
+
+#splash>*{flex:0 0 auto}
+@media (max-height:560px){#splash p{display:none}}
+
+/* ---------- کتابی اینیمیشن ---------- */
+.bkw{
+  --w:20px;--h:28px;display:grid;place-items:center;flex:0 0 auto;
+  width:calc(var(--w)*2 + 16px);height:calc(var(--h) + 16px);perspective:600px;
+  filter:drop-shadow(0 0 8px rgba(224,190,114,.45));
+}
+.bkw.big{--w:96px;--h:132px;perspective:1100px;margin-bottom:10px;filter:drop-shadow(0 0 26px rgba(224,190,114,.55))}
+.bk{position:relative;width:calc(var(--w)*2);height:var(--h);transform-style:preserve-3d;transform:rotateX(24deg);animation:bob 4.8s ease-in-out infinite}
+.bkw:not(.big) .bk{transform:rotateX(18deg)}
+@keyframes bob{50%{transform:rotateX(24deg) translateY(-6px)}}
+.bk .cover{
+  position:absolute;inset:-5px;border-radius:7px;transform:translateZ(-5px);
+  background:linear-gradient(135deg,#1a6b47,#0b3322);border:2px solid var(--gold);
+  box-shadow:0 14px 28px rgba(0,0,0,.5),inset 0 0 0 3px rgba(224,190,114,.25);
+}
+.bk .spine{position:absolute;top:-5px;bottom:-5px;left:50%;width:3px;margin-left:-1.5px;background:linear-gradient(var(--gold),#a8842f);transform:translateZ(-4px)}
+.bk .pg{
+  position:absolute;top:0;left:50%;width:var(--w);height:var(--h);transform-origin:left center;
+  border-radius:0 3px 3px 0;
+  background:
+    repeating-linear-gradient(180deg,transparent 0 9%,rgba(11,51,34,.22) 9% 10%) 14% 18%/72% 66% no-repeat,
+    linear-gradient(90deg,#d9d2bd,#fbf8ef 25%,#f3eedd);
+  box-shadow:0 0 2px rgba(0,0,0,.3);
+  animation:pgflip 6.4s ease-in-out infinite;animation-delay:calc(var(--i)*.28s);
+}
+@keyframes pgflip{
+  0%,6%{transform:translateZ(calc(var(--i)*.7px)) rotateY(0)}
+  34%,58%{transform:translateZ(calc(var(--i)*.7px)) rotateY(-178deg)}
+  86%,100%{transform:translateZ(calc(var(--i)*.7px)) rotateY(0)}
+}
+.brand .bkw{margin-inline-end:2px}
+@media (max-width:700px){.bkw:not(.big){--w:16px;--h:24px}.bkw.big{--w:78px;--h:108px}}
+@media (max-height:640px){.bkw.big{--w:64px;--h:90px}}
+
+/* =====================================================
+   لائبریری (ہوم پیج) اور روابط کا صفحہ
+   ===================================================== */
+body.lib .bar{position:sticky;top:0}
+.wrap{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:0 20px 70px}
+.hero{text-align:center;padding:38px 10px 22px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.hero h1{
+  margin:8px 0 0;font-family:var(--bombay);font-weight:400;font-size:clamp(2rem,6vw,3.6rem);line-height:1.8;
+  background:linear-gradient(90deg,var(--gold),var(--gold-2),var(--gold));background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:fadeUp 1s var(--ease) both,shine 5s linear infinite;
+}
+.hero p{margin:0;font-family:var(--lalezar);font-size:clamp(1rem,2.4vw,1.35rem);color:var(--muted);animation:fadeUp 1s var(--ease) .2s both}
+.count{display:inline-block;margin-top:10px;padding:4px 16px;border:1px solid rgba(224,190,114,.45);border-radius:99px;color:var(--gold-2);font-size:.9rem;animation:fadeUp 1s var(--ease) .35s both}
+
+.find{display:flex;justify-content:center;margin:8px 0 30px;animation:fadeUp 1s var(--ease) .45s both}
+.find input{
+  width:min(420px,100%);height:46px;padding:0 20px;border-radius:99px;font-size:1rem;
+  border:1px solid var(--line);background:rgba(0,0,0,.35);backdrop-filter:blur(6px);text-align:right;
+  transition:border-color .2s,box-shadow .2s;
+}
+.find input::placeholder{color:var(--muted)}
+.find input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 4px rgba(224,190,114,.2)}
+
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:34px 28px}
+.card{display:flex;flex-direction:column;gap:14px;opacity:0;transform:translateY(46px);
+  transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.card.in{opacity:1;transform:none;transition-delay:calc(var(--i)*70ms)}
+.card.gone{display:none}
+.tilt{perspective:900px}
+.face{
+  position:relative;display:block;aspect-ratio:.74;border-radius:6px 12px 12px 6px;overflow:hidden;background:#e9e4d4;
+  box-shadow:0 20px 40px rgba(0,0,0,.55),inset -7px 0 12px -6px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.08);
+  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .25s var(--ease),box-shadow .35s;
+  transform-style:preserve-3d;
+}
+.face img{width:100%;height:100%;object-fit:cover;display:block}
+.face::after{ /* چمک جو ماؤس کے ساتھ چلتی ہے */
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;
+  background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.38),transparent 55%);
+}
+.face::before{ /* جلد کی سنہری لکیر */
+  content:"";position:absolute;top:0;bottom:0;right:0;width:8px;z-index:2;pointer-events:none;
+  background:linear-gradient(270deg,rgba(0,0,0,.35),transparent);
+}
+.card:hover .face{box-shadow:0 30px 60px rgba(0,0,0,.65),0 0 30px rgba(224,190,114,.35),0 0 0 1px rgba(224,190,114,.5)}
+.card:hover .face::after{opacity:1}
+.no{position:absolute;top:10px;left:10px;z-index:3;padding:3px 12px;border-radius:99px;font-size:.78rem;
+  background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#1b2a20;font-weight:700;box-shadow:0 4px 10px rgba(0,0,0,.4)}
+.meta{text-align:center;display:flex;flex-direction:column;gap:2px}
+.meta h2{margin:0;font-family:var(--lalezar);font-weight:400;font-size:1.3rem;line-height:1.7;color:var(--gold-2)}
+.meta small{color:var(--muted);font-size:.85rem}
+.acts{display:flex;justify-content:center;gap:8px;margin-top:6px}
+.pill{
+  display:inline-flex;align-items:center;justify-content:center;height:38px;padding:0 18px;border-radius:99px;
+  border:1px solid var(--gold);font-size:.9rem;cursor:pointer;transition:background .2s,color .2s,transform .2s var(--ease);
+}
+.pill:hover{background:rgba(224,190,114,.18);transform:translateY(-2px)}
+.pill.main{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#1b2a20;font-weight:700}
+.pill.main:hover{filter:brightness(1.08)}
+.empty{text-align:center;color:var(--muted);padding:40px;display:none}
+.foot{position:relative;z-index:1;text-align:center;color:var(--muted);font-size:.85rem;padding:0 16px 40px}
+.foot a{color:var(--gold);border-bottom:1px dashed rgba(224,190,114,.5)}
+.bar .tools .btn.link{padding:0 14px}
+body.lib .brand{flex:1 1 220px}
+
+/* روابط کا صفحہ */
+.links h2{font-family:var(--lalezar);font-weight:400;color:var(--gold-2);font-size:1.5rem;margin:34px 0 4px}
+.links .row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:6px 0 10px}
+.links .row code{direction:ltr;unicode-bidi:plaintext;background:rgba(0,0,0,.35);border:1px solid var(--line);padding:6px 12px;border-radius:8px;font-size:.85rem;color:var(--muted);word-break:break-all}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 6px}
+.chips a{min-width:46px;height:38px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line);
+  border-radius:10px;background:rgba(0,0,0,.28);direction:ltr;transition:all .2s var(--ease)}
+.chips a:hover{background:rgba(224,190,114,.2);border-color:var(--gold);transform:translateY(-3px)}
+.cp{height:34px;padding:0 14px;border-radius:99px;border:1px solid var(--gold);background:transparent;cursor:pointer;font-size:.82rem}
+.cp:hover{background:rgba(224,190,114,.2)}
+
+/* دراج کے اوپر اشاعتوں کا انتخاب */
+.issuesel{padding:10px 14px;border-bottom:1px solid var(--line)}
+.issuesel label{display:block;font-size:.8rem;color:var(--muted);margin-bottom:6px}
+.issuesel select{
+  width:100%;height:40px;padding:0 10px;border-radius:10px;border:1px solid var(--line);
+  background:#0b1a13;color:var(--ink);font-family:inherit;font-size:.95rem;
+}
+.issuesel select:focus{outline:2px solid var(--gold)}
+@media (max-width:700px){
+  .shelf{grid-template-columns:repeat(2,1fr);gap:26px 14px}
+  .meta h2{font-size:1.05rem}
+  .pill{padding:0 12px;height:36px;font-size:.82rem}
+  .wrap{padding:0 14px 60px}
+}
+@media (max-width:380px){.shelf{grid-template-columns:1fr}}
+
+/* موبائل: ویور کی اوپر کی پٹی کو دو قطاروں تک محدود رکھیں */
+@media (max-width:700px){
+  body.viewer .bar{flex-wrap:wrap;gap:6px 8px}
+  body.viewer .brand{flex:1 1 0;min-width:0}
+  body.viewer .brand small{display:none}
+  body.viewer .tools{flex:1 1 100%;flex-wrap:nowrap;justify-content:space-between}
+}
+@media (max-width:480px){
+  #bFull,#bFull + .sep,#bLink + .sep{display:none}
+  .view-grp .btn{padding:0 10px}
+  .view-grp .btn .lbl{display:inline}
+  .zoom-val{min-width:42px}
+}
+@media (max-width:480px){
+  .bar .btn{white-space:nowrap}
+}
+@media (max-width:400px){
+  .view-grp .btn{padding:0 7px;font-size:.78rem}
+  .bar .tools{gap:5px}
+  .bar .btn{min-width:34px;padding:0 6px}
+  .zoom-val{min-width:38px;font-size:.74rem}
+}
+
+/* ---------- تصویر نہ ملنے پر پیغام ---------- */
+#book .miss{
+  height:var(--h,70vh);width:var(--w,50vh);background:#fbf8ef;color:#3a2f12;border-radius:2px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px;text-align:center;
+  box-shadow:0 18px 40px rgba(0,0,0,.6);font-size:.95rem;
+}
+#book .miss b{color:#8a1c1c;font-size:1.2rem}
+#book .miss code{direction:ltr;font-size:.75rem;word-break:break-all;background:#efe8d2;padding:6px 10px;border-radius:6px;max-width:100%}
+#book .miss span{font-size:.85rem;line-height:1.9}
+
+/* ---------- رسائل کے متحرک فوری لنکس ---------- */
+.qlinks{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 12px;max-width:940px;margin:14px auto 4px;padding:0 8px}
+.qlink{
+  position:relative;display:inline-flex;align-items:center;gap:10px;padding:8px 18px 8px 12px;border-radius:99px;overflow:hidden;
+  background:linear-gradient(135deg,rgba(20,87,58,.9),rgba(11,51,34,.9));border:1px solid rgba(224,190,114,.55);
+  box-shadow:0 6px 18px rgba(0,0,0,.4);color:var(--ink);
+  animation:fadeUp .8s var(--ease) calc(.9s + var(--i)*.13s) both,bobY 5s ease-in-out calc(2.4s + var(--i)*.35s) infinite;
+  transition:background .25s,border-color .25s,box-shadow .25s;
+}
+.qlink em{
+  font-style:normal;min-width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:.85rem;font-weight:700;
+  background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#1b2a20;flex:0 0 auto;
+}
+.qlink span{font-family:var(--lalezar);font-size:1.05rem;line-height:1.5;display:flex;flex-direction:column}
+.qlink small{font-family:var(--ui);font-size:.72rem;color:var(--muted);line-height:1.2}
+.qlink::after{ /* گزرتی ہوئی چمک */
+  content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;transform:skewX(-20deg);pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.28),transparent);
+  animation:sweep 4.5s ease-in-out calc(2.5s + var(--i)*.5s) infinite;
+}
+.qlink:hover{background:linear-gradient(135deg,#1c7a51,#0f4a30);border-color:var(--gold);box-shadow:0 10px 26px rgba(0,0,0,.5),0 0 18px rgba(224,190,114,.45);animation-play-state:running,paused}
+@keyframes bobY{50%{transform:translateY(-6px)}}
+@keyframes sweep{0%{left:-60%}55%,100%{left:130%}}
+.qlinks.in-splash{margin-top:18px}
+.in-hero.qlinks{margin:18px auto 14px}
+@media (max-width:700px){
+  .qlinks{gap:8px;max-width:100%}
+  .qlink{padding:6px 14px 6px 10px}
+  .qlink span{font-size:.95rem}
+  .qlink em{min-width:24px;height:24px;font-size:.78rem}
+}
+@media (max-height:700px){#splash .bkw.big{--w:60px;--h:84px}}
