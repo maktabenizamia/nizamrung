@@ -1,2 +1,0 @@
-# nizamrung
-NIZAM RUNG MAGZINE
