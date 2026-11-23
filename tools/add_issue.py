@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-نظامِ رنگ — نئی اشاعت شامل کرنے کا اسکرپٹ
+نظام رنگ — نئی اشاعت شامل کرنے کا اسکرپٹ
 
 PDF سے نئی اشاعت:
     python3 tools/add_issue.py "C:/میگزین/feb.pdf" --slug 2025-02 \
@@ -20,7 +20,7 @@ import argparse, glob, html, json, os, re, shutil, subprocess, sys, tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data", "issues.js")
-SITE = "نظامِ رنگ"
+SITE = "نظام رنگ"
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar'
@@ -240,7 +240,7 @@ def write_links(issues):
 
 # ---------------------------------------------------------------- main
 def main():
-    ap = argparse.ArgumentParser(description="نظامِ رنگ: نئی اشاعت شامل کریں")
+    ap = argparse.ArgumentParser(description="نظام رنگ: نئی اشاعت شامل کریں")
     ap.add_argument("pdf", nargs="?", help="PDF فائل کا راستہ")
     ap.add_argument("--images", help="PDF کی جگہ تصاویر کا فولڈر (ترتیب نام کے مطابق)")
     ap.add_argument("--slug", help="لنک کا نام، مثلاً 2025-02 (انگریزی حروف/اعداد/ڈیش)")
