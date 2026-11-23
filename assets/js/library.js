@@ -95,7 +95,17 @@
     logos += '<span class="lg" style="--i:' + i + '"><img src="assets/logos/' + l[0] + '.webp" alt="' + l[1] + '" title="' + l[1] + '"></span>';
   });
   logos += '</div>';
-  s.innerHTML = logos + NR.BOOK(true) + '<h1>' + NR.SITE + '</h1><p>اسلامی روحانی مجلہ — تمام اشاعتیں</p>' +
+  /* شعر: ہر لفظ باری باری ابھرتا ہے */
+  var SHER = ['میرے محبوبِ الٰہی سیدی سلطان جیؒ', 'حشر میں بابا نظام الاولیاءؒ کا ساتھ ہو'];
+  var wi = 0, sher = '<blockquote class="sher" aria-label="' + SHER.join('، ') + '"><i class="orn" aria-hidden="true"></i>';
+  SHER.forEach(function (line) {
+    sher += '<p class="misra">';
+    line.split(' ').forEach(function (w) { sher += '<span class="w" style="--w:' + (wi++) + '">' + w + '</span> '; });
+    sher += '</p>';
+  });
+  sher += '<i class="orn" aria-hidden="true"></i></blockquote>';
+
+  s.innerHTML = logos + '<h1>' + NR.SITE + '</h1>' + sher +
     quick('in-splash') +
     '<button type="button" class="enter" id="bEnter"><span>مزید پڑھیں</span>' + NR.ICON.left + '</button>';
   body.appendChild(s);

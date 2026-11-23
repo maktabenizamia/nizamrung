@@ -506,3 +506,69 @@ body.lib .brand{flex:1 1 220px}
 /* لوگو تختی کے اندر ہی رہیں (چوکور تصاویر باہر نہ نکلیں) */
 .lg{display:flex;align-items:center;justify-content:center;overflow:hidden}
 .lg img{min-width:0;min-height:0;max-width:100%;max-height:100%}
+
+/* =====================================================
+   افتتاحی اسکرین: بڑے متحرک لوگو (کتاب کی جگہ) اور شعر
+   ===================================================== */
+#splash .logos{gap:14px 18px;margin:0 0 6px;perspective:900px}
+#splash .lg{
+  --lw:clamp(78px,min(12.5vw,21vh),164px);
+  border-radius:22px;border-width:3px;padding:9px;
+  box-shadow:0 14px 34px rgba(0,0,0,.5),0 0 0 5px rgba(224,190,114,.16);
+  animation:logoFlip 1.1s var(--ease) calc(.2s + var(--i)*.22s) both,
+            bobY 5.5s ease-in-out calc(2.2s + var(--i)*.45s) infinite,
+            glowPulse 4.5s ease-in-out calc(1.6s + var(--i)*.5s) infinite;
+}
+#splash .lg::after{ /* پلیٹ پر گزرتی ہوئی چمک */
+  content:"";position:absolute;top:-10%;bottom:-10%;width:35%;left:-70%;transform:skewX(-20deg);pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);
+  animation:sweep 5s ease-in-out calc(2.6s + var(--i)*.7s) infinite;
+}
+#splash .lg:hover{animation-play-state:running,paused,running}
+@keyframes logoFlip{
+  0%{opacity:0;transform:rotateY(-110deg) translateY(-30px) scale(.45)}
+  60%{opacity:1}
+  100%{opacity:1;transform:none}
+}
+
+.sher{
+  margin:6px 0 4px;padding:10px 24px;max-width:94vw;display:flex;flex-direction:column;align-items:center;gap:0;
+  font-family:var(--title);color:var(--gold-2);
+}
+.sher .misra{margin:0;font-family:var(--title);font-size:clamp(1.15rem,3.1vw,1.9rem);line-height:2.15;color:var(--gold-2);animation:none}
+.sher .w{
+  display:inline-block;opacity:0;
+  animation:wordIn .9s var(--ease) calc(1s + var(--w)*.2s) both,textGlow 4s ease-in-out calc(4s + var(--w)*.15s) infinite;
+}
+@keyframes wordIn{from{opacity:0;transform:translateY(18px) scale(.9);filter:blur(7px)}to{opacity:1;transform:none;filter:none}}
+@keyframes textGlow{50%{text-shadow:0 0 14px rgba(244,220,155,.75),0 0 30px rgba(224,190,114,.35)}}
+.sher .orn{ /* سنہری آرائشی لکیر درمیان میں ہیرے کے ساتھ */
+  position:relative;display:block;width:min(340px,70vw);height:12px;
+  background:linear-gradient(90deg,transparent,var(--gold) 20%,var(--gold-2) 50%,var(--gold) 80%,transparent) center/100% 1.5px no-repeat;
+  transform:scaleX(0);animation:ornIn 1.2s var(--ease) .7s both;
+}
+.sher .orn::after{
+  content:"";position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;transform:rotate(45deg);
+  background:var(--gold-2);box-shadow:0 0 12px var(--gold);
+}
+.sher .orn:last-child{animation-delay:2.4s}
+@keyframes ornIn{to{transform:scaleX(1)}}
+
+#splash h1{font-size:clamp(1.6rem,4.4vw,2.6rem);line-height:1.6;margin:6px 0 0}
+
+@media (max-width:520px){
+  #splash .logos{display:grid;grid-template-columns:repeat(2,auto);justify-content:center;gap:12px}
+  #splash .lg{--lw:min(38vw,150px)}
+  .qlink small{display:none}
+  .qlink{padding:5px 12px 5px 8px}
+  #splash .qlinks{gap:7px 8px}
+}
+@media (max-height:640px) and (min-width:521px){#splash .lg{--lw:clamp(64px,min(11vw,17vh),120px)}}
+/* شعر کے اصول `#splash p` پر غالب رہیں (سنہری رنگ، نستعلیق، بڑا سائز) */
+#splash .sher .misra{
+  margin:0;font-family:var(--title);font-size:clamp(1.3rem,3.4vw,2.15rem);line-height:2.2;color:var(--gold-2);animation:none;
+}
+@media (max-width:520px){
+  #splash .lg{--lw:min(34vw,132px)}
+  #splash .sher .misra{font-size:1.2rem;line-height:2.1}
+}
