@@ -2,7 +2,7 @@
 (function () {
   'use strict';
   var NR = window.NR = {};
-  NR.SITE = 'ماہنامہ نظامِ رنگ';
+  NR.SITE = 'نظامِ رنگ';
 
   NR.ICON = {
     menu: '<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>',

@@ -486,3 +486,23 @@ body.lib .brand{flex:1 1 220px}
   .qlink em{min-width:24px;height:24px;font-size:.78rem}
 }
 @media (max-height:700px){#splash .bkw.big{--w:60px;--h:84px}}
+
+/* ---------- افتتاحی صفحے کے لوگو ---------- */
+.logos{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 16px;margin-bottom:4px}
+.lg{
+  --lw:clamp(64px,9vw,104px);
+  position:relative;display:grid;place-items:center;width:var(--lw);height:calc(var(--lw)*.86);padding:7px;
+  background:#fff;border-radius:18px;border:2px solid var(--gold);
+  box-shadow:0 8px 22px rgba(0,0,0,.45),0 0 0 4px rgba(224,190,114,.14);
+  animation:logoIn .9s var(--ease) calc(.15s + var(--i)*.18s) both,glowPulse 4.5s ease-in-out calc(1.6s + var(--i)*.5s) infinite;
+  transition:transform .3s var(--ease);
+}
+.lg:hover{transform:translateY(-5px) scale(1.08) rotate(-2deg)}
+.lg img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block}
+@keyframes logoIn{from{opacity:0;transform:translateY(-28px) scale(.5) rotate(-12deg)}to{opacity:1;transform:none}}
+@keyframes glowPulse{50%{box-shadow:0 8px 22px rgba(0,0,0,.45),0 0 0 7px rgba(224,190,114,.28),0 0 26px rgba(224,190,114,.45)}}
+#splash .bkw.big{--w:70px;--h:98px;margin-bottom:2px}
+@media (max-width:420px){.lg{--lw:calc((100vw - 76px)/4)}.logos{gap:8px}}
+/* لوگو تختی کے اندر ہی رہیں (چوکور تصاویر باہر نہ نکلیں) */
+.lg{display:flex;align-items:center;justify-content:center;overflow:hidden}
+.lg img{min-width:0;min-height:0;max-width:100%;max-height:100%}

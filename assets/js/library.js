@@ -84,7 +84,18 @@
   if (seen) return;
   try { sessionStorage.setItem('nr-splash', '1'); } catch (e) {}
   var s = document.createElement('div'); s.id = 'splash';
-  s.innerHTML = NR.BOOK(true) + '<h1>' + NR.SITE + '</h1><p>اسلامی روحانی مجلہ — تمام اشاعتیں</p>' +
+  var LOGOS = [
+    ['nms-logo', 'نظام المدارس صوفیاء — ادارہ بین السلاسل مدارس'],
+    ['nms-seal', 'نظام المدارس صوفیاء — رجسٹرڈ'],
+    ['nizam-rung', 'نظامِ رنگ'],
+    ['jamia-nizamia', 'جمعیہ نظامیہ، مدینہ منورہ']
+  ];
+  var logos = '<div class="logos">';
+  LOGOS.forEach(function (l, i) {
+    logos += '<span class="lg" style="--i:' + i + '"><img src="assets/logos/' + l[0] + '.webp" alt="' + l[1] + '" title="' + l[1] + '"></span>';
+  });
+  logos += '</div>';
+  s.innerHTML = logos + NR.BOOK(true) + '<h1>' + NR.SITE + '</h1><p>اسلامی روحانی مجلہ — تمام اشاعتیں</p>' +
     quick('in-splash') +
     '<button type="button" class="enter" id="bEnter"><span>مزید پڑھیں</span>' + NR.ICON.left + '</button>';
   body.appendChild(s);

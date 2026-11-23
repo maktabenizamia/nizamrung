@@ -20,7 +20,7 @@ import argparse, glob, html, json, os, re, shutil, subprocess, sys, tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data", "issues.js")
-SITE = "ماہنامہ نظامِ رنگ"
+SITE = "نظامِ رنگ"
 
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">\n'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar'
